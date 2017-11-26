@@ -1,19 +1,38 @@
 package com.company;
 
+import java.util.ArrayList;
+
 public class Unit {
     private static int unitIdCounter = 0;
     private int unitId;
     private String unitName;
-    private Room room;
+    private UnitsInRoom unitsInRoom;
     private int power;
     private boolean isPowerOn;
 
-    public Unit(String unitName, int power, Room room) {
+    public ArrayList<Unit> getUnits() {
+        return units;
+    }
+
+    public void setUnits(ArrayList<Unit> units) {
+        this.units = units;
+    }
+
+    private ArrayList<Unit> units;
+
+    public Unit(String unitName, int power, UnitsInRoom unitsInRoom) {
+       // this.unitId = unitIdCounter++;
+        System.out.println("ID прибора: " + unitId);
+        this.unitName = unitName;
+        this.power = power;
+        this.unitsInRoom = unitsInRoom;
+    }
+
+    public Unit(String unitName, int power) {
         unitId = unitIdCounter++;
         System.out.println("ID прибора: " + unitId);
         this.unitName = unitName;
         this.power = power;
-        this.room = room;
     }
 
     public int getUnitId() {
@@ -29,7 +48,7 @@ public class Unit {
     }
 
     public void removeRoomFromUnit() {
-        room = null;
+        unitsInRoom = null;
     }
 
     public void powerOnUnit() {
@@ -49,7 +68,7 @@ public class Unit {
         return "Прибор{" +
                 "Id прибора=" + unitId +
                 ", Название прыбора='" + unitName + '\'' +
-                ", комната = " + room +
+                ", комната = " + unitsInRoom +
                 ", мощность = " + power +
                 ", включен? = " + isPowerOn +
                 "}\n";
@@ -63,6 +82,7 @@ public class Unit {
         if (unitId != unit.unitId) return false;
         if (power != unit.power) return false;
         if (!unitName.equals(unit.unitName)) return false;
-        return !(room != null ? !room.equals(unit.room) : unit.room != null);
+        return !(unitsInRoom != null ? !unitsInRoom.equals(unit.unitsInRoom) : unit.unitsInRoom != null);
     }
+
 }
