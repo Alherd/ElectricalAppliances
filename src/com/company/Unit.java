@@ -21,7 +21,7 @@ public class Unit {
     private ArrayList<Unit> units;
 
     public Unit(String unitName, int power, UnitsInRoom unitsInRoom) {
-       // this.unitId = unitIdCounter++;
+        this.unitId = unitIdCounter++;
         System.out.println("ID прибора: " + unitId);
         this.unitName = unitName;
         this.power = power;

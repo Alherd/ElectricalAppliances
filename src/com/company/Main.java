@@ -1,5 +1,6 @@
 package com.company;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -22,7 +23,16 @@ public class Main {
 
     public static void main(String[] args) {
         sUsingMethods = new Methods();
-        menu();
+        try {
+            menu();
+        } catch (InputMismatchException e) {
+            System.out.println("Вводите целое число от 0 до 11");
+            menu();
+        } catch (Exception e) {
+            System.out.println("Неизвестная ошибка ввода");
+            menu();
+        }
+
     }
 
     private static void printMenu() {
@@ -35,44 +45,117 @@ public class Main {
         while (runWhile) {
             printMenu();
             int k = inputInt("номер операции");
-            switch (k) {
-                case 1: // Добавить комнату
-                    sUsingMethods.addNewRoom(inputString("название комнаты"), inputInt("максимальную мощность комнаты"));
-                    break;
-                case 2: // Добавить прибор
-                    sUsingMethods.addNewUnit(inputString("название прибора"), inputInt("мощность прибора"));
-                    break;
-                case 3: // Добавить прибор в комнату
-                    sUsingMethods.addUnitToRoom(inputInt("id прибора"), inputString("название комнаты"));
-                    break;
-                case 4: // Удалить прибор
-                    sUsingMethods.deleteUnit(inputInt("существующий ID прибора"));
-                    break;
-                case 5: // Включить прибор
-                    sUsingMethods.powerOnUnit(inputInt("существующий ID прибора"));
-                    break;
-                case 6: // Выключить прибор
-                    sUsingMethods.powerOffUnit(inputInt("существующий ID прибора"));
-                    break;
-                case 7: // Показать все приборы
-                    sUsingMethods.printAllUnits();
-                    break;
-                case 8: // Показать отсортированные включенные приборы (в порядке увеличения используемой мощности)
-                    sUsingMethods.printAllSortedUnits();
-                    break;
-                case 9: // Показать всю используемую можность
-                    sUsingMethods.showActualPower();
-                    break;
-                case 10: // Найти прибор по имени
-                    sUsingMethods.findUnit(inputString("название прибора или его часть"));
-                    break;
-                case 11: //  Найти прибор по установленным значениям мощности
-                    sUsingMethods.findUnitPower(inputInt("минимальную мощность"),
-                            inputInt("максимальную мощность"));
-                    break;
+            if ((k < 0) || (k > 11)) {
+                System.out.println("Вводите целое число от 0 до 11");
+            }
+            try {
+                switch (k) {
+                    case 1: // Добавить комнату
+                        try {
+                            sUsingMethods.addNewRoom(inputString("название комнаты"), inputInt("максимальную мощность комнаты"));
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Комната уже существует");
+                        } catch (InputMismatchException e) {
+                            System.out.println("Мощность представляет собой целое число. Комната не добавлена");
+                        } catch (Exception e) {
+                            System.out.println("Неизвестная ошибка ввода");
+                        }
+                        break;
+                    case 2: // Добавить прибор
+                        try {
+                            sUsingMethods.addNewUnit(inputString("название прибора"), inputInt("мощность прибора"));
+                        } catch (InputMismatchException e) {
+                            System.out.println("Мощность представляет собой целое число. Прибор не добавлен");
+                        } catch (Exception e) {
+                            System.out.println("Неизвестная ошибка ввода");
+                        }
+                        break;
+                    case 3: // Добавить прибор в комнату
+                        try {
+                            sUsingMethods.addUnitToRoom(inputInt("id прибора"), inputString("название комнаты"));
+                        } catch (InputMismatchException e) {
+                            System.out.println("id прибора представляет собой целое число. Прибор не добавлен");
+                        } catch (PowerException e) {
+                            System.out.println("Прибор не может быть добавлен из-за нехватки мощности комнаты");
+                        } catch (Exception e) {
+                            System.out.println("Неизвестная ошибка ввода");
+                        }
+                        break;
+                    case 4: // Удалить прибор
+                        try {
+                            sUsingMethods.deleteUnit(inputInt("существующий ID прибора"));
+                        } catch (InputMismatchException e) {
+                            System.out.println("id прибора представляет собой целое число. Прибор не удален из комнаты");
+                        } catch (Exception e) {
+                            System.out.println("Неизвестная ошибка ввода");
+                        }
+                        break;
+                    case 5: // Включить прибор
+                        try {
+                            sUsingMethods.powerOnUnit(inputInt("существующий ID прибора"));
+                        } catch (InputMismatchException e) {
+                            System.out.println("id прибора представляет собой целое число. Прибор не удален из комнаты");
+                        } catch (Exception e) {
+                            System.out.println("Неизвестная ошибка ввода");
+                        }
+                        break;
+                    case 6: // Выключить прибор
+                        try {
+                            sUsingMethods.powerOffUnit(inputInt("существующий ID прибора"));
+                        } catch (InputMismatchException e) {
+                            System.out.println("id прибора представляет собой целое число. Прибор не удален из комнаты");
+                        } catch (Exception e) {
+                            System.out.println("Неизвестная ошибка ввода");
+                        }
+                        break;
+                    case 7: // Показать все приборы
+                        try {
+                            sUsingMethods.printAllUnits();
+                        } catch (Exception e) {
+                            System.out.println("Неизвестная ошибка");
+                        }
+                        break;
+                    case 8: // Показать отсортированные включенные приборы (в порядке увеличения используемой мощности)
+                        try {
+                            sUsingMethods.printAllSortedUnits();
+                        } catch (Exception e) {
+                            System.out.println("Неизвестная ошибка");
+                        }
+                        break;
+                    case 9: // Показать всю используемую можность
+                        try {
+                            sUsingMethods.showActualPower();
+                        } catch (Exception e) {
+                            System.out.println("Неизвестная ошибка");
+                        }
+                        break;
+                    case 10: // Найти прибор по имени
+                        try {
+                            sUsingMethods.findUnit(inputString("название прибора или его часть"));
+                        } catch (Exception e) {
+                            System.out.println("Неизвестная ошибка");
+                        }
+                        break;
+                    case 11: //  Найти прибор по установленным значениям мощности
+                        try {
+                            sUsingMethods.findUnitPower(inputInt("минимальную мощность"),
+                                    inputInt("максимальную мощность"));
+                        } catch (InputMismatchException e) {
+                            System.out.println("Мощность прибора представляет собой целое число. Приборы не найдены");
+                        } catch (Exception e) {
+                            System.out.println("Неизвестная ошибка ввода");
+                        }
+                        break;
 
-                case 0: // Выйти
-                    runWhile = false;
+                    case 0: // Выйти
+                        try {
+                            runWhile = false;
+                        } catch (Exception e) {
+                            System.out.println("Неизвестная ошибка выхода");
+                        }
+                }
+            } catch (Exception e) {
+                System.out.println("Неизвестная ошибка ввода");
             }
         }
     }

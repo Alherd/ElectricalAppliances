@@ -41,7 +41,7 @@ public class Methods extends AbstractMethods implements InterfaceMethods {
         System.out.println("Прибор добавлен в список бескомнатных");
     }
 
-    public void addUnitToRoom(int unitID, String roomName) {
+    public void addUnitToRoom(int unitID, String roomName) throws PowerException {
         Unit opUnit = getUnit(unitID);
         if (opUnit != null) {
             String unitName = opUnit.getUnitName();
@@ -53,6 +53,10 @@ public class Methods extends AbstractMethods implements InterfaceMethods {
             }
             tempUnitsInRoom.setRoomPower(tempUnitsInRoom.getRoomPower() - opUnit.getUnitPower());
             int a = tempUnitsInRoom.getRoomPower();
+            if (a < 0) {
+                tempUnitsInRoom.setRoomPower(tempUnitsInRoom.getRoomPower() + opUnit.getUnitPower());
+                throw new PowerException("Комнате не хватает мощности", a);
+            }
             Unit tempUnit = new Unit(unitName, unitPower, tempUnitsInRoom);
             tempUnitsInRoom.assignUnitToRoom(tempUnit);
             System.out.println("Прибор в комнату добавлен, оставшаяся мощность " + a);
@@ -72,6 +76,7 @@ public class Methods extends AbstractMethods implements InterfaceMethods {
                     Unit unit1 = getOneUnit(unitId);
                     unitsInRoom.setRoomPower(unitsInRoom.getRoomPower() + unit1.getUnitPower());
                     int a = unitsInRoom.getRoomPower();
+
                     addNewUnit(unit1.getUnitName(), unit1.getUnitPower());
                     unit.removeRoomFromUnit();
                     unitsInRoom.deleteUnit(unit);
